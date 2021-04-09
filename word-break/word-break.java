@@ -1,27 +1,28 @@
 class Solution {
-    
-    Set<String> visited = new HashSet();
-public boolean wordBreak(String s, List<String> wordDict) {
-
-    if(visited.contains(s)){
-        return false;
+    public boolean wordBreak(String s, List<String> wordDict) {
+        return dfs( 0, new Boolean[s.length()], s, wordDict);
     }
     
-    for (int i = 1; i <= s.length(); ++i) {
-      String first = s.substring(0, i);
-      if (wordDict.contains(first)) {
-        String second = s.substring(i);
-     
-        if (second == null || second.length() == 0 || wordDict.contains(second) || wordBreak(second, wordDict)) {
+    public boolean dfs(int i, Boolean[] memo, String s, List<String> wordDict)         {
+        
+      if(s.length()==i){
           return true;
-        }else{
-               visited.add(second);
-        }
-
       }
+        if(memo[i]!=null){
+            return memo[i];
+        }
+         boolean found = false;
+        
+        for(String word: wordDict ){
+           
+           if(s.substring(i).startsWith(word)){
+               found = found || dfs(i+ word.length(), memo,s,wordDict);
+           }
+        }
+        memo[i] = found;
+        
+        return found;
+        
+        
     }
-    visited.add(s);
-    return false;
-}
-  
 }
