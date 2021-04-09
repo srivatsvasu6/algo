@@ -5,32 +5,32 @@ class Solution {
             return list;
         }
         
-        dfs(new ArrayList<Integer>(),new boolean[nums.length], list, nums );
+        dfs(new ArrayList<Integer>(), list, nums );
         
         return list;
         
         
     }
     
-    public void dfs(List<Integer> paths , boolean[] used,   List<List<Integer>> list ,int[] nums ){
+    public void dfs(List<Integer> paths , List<List<Integer>> list ,int[] nums ){
         
-        if(paths.size() == used.length){
+        if(paths.size() == nums.length){
             list.add(new ArrayList<>(paths));
             return;
-        }
+        }else{
         
-        for(int i=0; i<nums.length; i++){
-            
-            if(used[i])
-                continue;
-            
-            used[i]= true;
-            paths.add(nums[i]);
-            
-            dfs(paths, used, list, nums);
-            
-            paths.remove(paths.size()-1);
-            used[i] = false;
+            for(int i=0; i<nums.length; i++){
+                
+                if(paths.contains(nums[i]))
+                    continue;
+
+                paths.add(nums[i]);
+
+                dfs(paths, list, nums);
+
+                paths.remove(paths.size()-1);
+
+            }
         }
 
     }
