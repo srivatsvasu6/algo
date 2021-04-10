@@ -26,10 +26,11 @@ class Solution {
         while (node != null || !stack.isEmpty()) {
             if (node != null) {
                 res.add(node.val);
-                stack.push(node.right);
+                stack.push(node);
                 node = node.left;
             } else {
                 node = stack.pop();
+                node= node.right;
             }
         
         }
