@@ -1,3 +1,4 @@
+[Discussion Post (created on 10/3/2021 at 22:49)](https://leetcode.com/problems/sum-of-left-leaves/discuss/?currentPage=1&orderBy=most_votes&query=)  
 <h2>404. Sum of Left Leaves</h2><h3>Easy</h3><hr><div><p>Find the sum of all left leaves in a given binary tree.</p>
 
 <p><b>Example:</b>
