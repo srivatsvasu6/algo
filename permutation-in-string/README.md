@@ -1,3 +1,4 @@
+[Discussion Post (created on 14/3/2021 at 21:51)](https://leetcode.com/problems/permutation-in-string/submissions/)  
 <h2>567. Permutation in String</h2><h3>Medium</h3><hr><div><p>Given two strings <b>s1</b> and <b>s2</b>, write a function to return true if <b>s2</b> contains the permutation of <b>s1</b>. In other words, one of the first string's permutations is the <b>substring</b> of the second string.</p>
 
 <p>&nbsp;</p>
