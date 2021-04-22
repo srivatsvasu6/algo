@@ -16,28 +16,26 @@
 class Solution {
     public void flatten(TreeNode root) {
 
-        if(root==null)
-            return;
+
  
-        Stack<TreeNode> stack = new Stack<TreeNode>();
-        stack.push(root);
-        TreeNode prev = null;
+       dfs(root);
         
-        while(!stack.isEmpty()){
-            TreeNode curr = stack.pop();
-            
-            if(prev!=null)
-                prev.right = curr;
-            
-            if(curr.right!=null)
-                stack.push(curr.right);
-              if(curr.left!=null)
-                stack.push(curr.left);
-            prev = curr;
-            prev.left = null;
-            
-            
-        }
+       
+    }
+    TreeNode prev;
+    public void dfs(TreeNode root){
+        if(root ==null)
+            return;
+        
+        dfs(root.right);
+        dfs(root.left);
+
+     
+        root.right = prev;
+        root.left = null;
+        prev = root;
+      
+       
        
     }
  
