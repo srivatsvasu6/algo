@@ -1,25 +1,35 @@
 class Solution {
-    public int[] asteroidCollision(int[] asteroids) {
-    int last = 0;
-        int curr = 1;
+    public int[] asteroidCollision(int[] a) {
         
-        while (curr < asteroids.length) {        
-            if ((last >= 0) && (asteroids[last] > 0) && (asteroids[curr] < 0)) {
-                if (-asteroids[curr] > asteroids[last]) {
-                    last--;
-                } else if (-asteroids[curr] < asteroids[last]) {
-                    curr++;
-                } else {
-                    last--;
-                    curr++;
-                }
-            } else {
-                asteroids[++last] = asteroids[curr++];
-            }            
+        if(a == null || a.length<2){
+            return a;
         }
-      
-        return Arrays.copyOfRange(asteroids, 0, ++last);
         
+        int prev = 0, curr =1;
+        
+        while(curr < a.length){
+            
+            if(prev >=0 && a[curr] < 0 && a[prev] > 0){
+                
+                if(a[prev] > -a[curr]){
+                    curr++;
+                }else  if(a[prev] < -a[curr]){
+                    prev --;
+                }else{
+                     curr++;
+                     prev--;
+                }
+                
+                
+            }else{
+                
+                a[++prev] = a[curr++];
+            }
+            
+            
+            
+        }
+        return Arrays.copyOf(a, prev+1);
         
     }
 }
