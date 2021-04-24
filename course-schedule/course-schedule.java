@@ -1,7 +1,6 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        
-        
+      
         if(numCourses<1 || prerequisites==null || prerequisites.length==0){
             return true;
         }
@@ -20,39 +19,42 @@ class Solution {
         
         int[] visited = new int[numCourses+1];
         
-
-        for(int i=0; i<numCourses; i++){
+          for(int i=0; i<numCourses; i++){
             if(! dfs(map, i, visited))
            {
                 return false;
            }
         }
         return true;
+        
     }
     
-    public boolean dfs( Map<Integer, List<Integer>> map, int i, int[] visited){
+    public boolean dfs( Map<Integer, List<Integer>> map, int i,  int[] visited ){
         
-        if(visited[i]==1){
-            return true;
-        }
-        
-        if(visited[i]==-1){
+        if (visited[i] ==-1){
             return false;
+        }
+        if(visited[i]== 1){
+            return true;
         }
         
         visited[i] = -1;
         
-
-        for(Integer course: map.get(i)){
+     
+        
+        for(Integer course: map.get(i) ){
             
-            if(! dfs(map, course, visited )){
+           if(! dfs(map, course, visited))
+           {
                 return false;
-            }
+           }
+            
         }
         
         visited[i] = 1;
-        
         return true;
         
     }
+    
+   
 }
