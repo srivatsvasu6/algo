@@ -17,11 +17,12 @@ class Solution {
     int max = 1000000007;
     
     long maxSum = Long.MIN_VALUE;
-     long total = 0;
+ 
+    
     public int maxProduct(TreeNode root) {
     
-     total = totalSum(root);
-     subTreeSum(root);
+
+         subTreeSum(root);
         
         
       return (int)(maxSum % max);
@@ -32,23 +33,52 @@ class Solution {
         if(root == null){
             return 0;
         }
-        long ls = subTreeSum(root.left);
-        long rs =  subTreeSum(root.right);
-        long tempMax =ls + rs + root.val; 
+     
         
-        maxSum = Math.max(maxSum, (total - tempMax)  * tempMax ) ;
-        System.out.println("SubTree max "+maxSum);
+         Map<TreeNode, Long> memo = new HashMap<>();
+           long  total = totalSum(root, memo);
+        Deque<TreeNode> deq = new LinkedList<>();
+        deq.push(root);
+              
+      
+        while(!deq.isEmpty()){
+            
+            TreeNode node = deq.pop();
+               
+            long sum = node.val;
+                if(node.left!=null){
+                    sum+= totalSum(node.left, memo);
+                    deq.push(node.left);
+                }
         
-        return tempMax;
+                if(node.right!=null){
+                    sum+= totalSum(node.right, memo);
+                    deq.push(node.right);
+                }
+             
+              maxSum = Math.max(maxSum, (total - sum)  * sum ) ;
+        }
+        
+        
+      
+        
+        return maxSum;
         
     }
     
-      public int totalSum(TreeNode root){
+      public long totalSum(TreeNode root, Map<TreeNode, Long> memo){
         if(root ==null){
             return 0;
         }
+        
+      if(memo.containsKey(root)){
+         return memo.get(root);
+      }
 
-        return root.val + totalSum(root.left) + totalSum(root.right); 
+        long res = root.val + totalSum(root.left, memo) + totalSum(root.right, memo); 
+          
+         memo.put( root, res);
+         return res; 
     }
     
    
