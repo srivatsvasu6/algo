@@ -1,7 +1,7 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
       
-        if(numCourses<1 || prerequisites==null || prerequisites.length==0){
+        if(numCourses< 2 || prerequisites==null || prerequisites.length==0){
             return true;
         }
         
