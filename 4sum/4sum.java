@@ -7,9 +7,9 @@ class Solution {
   
         Arrays.sort(nums);
         
-        for(int i=0; i<n; i++){
+        for(int i=0; i<n-2; i++){
             
-            for(int j = i+1; j< n; j++){
+            for(int j = i+1; j< n-1; j++){
             
                 l = j+1;
                 h = n-1;
@@ -27,8 +27,9 @@ class Solution {
                     }else{
                         
                     res.add(Arrays.asList(nums[i], nums[j], nums[l], nums[h]));
-                        while(++l<=h && nums[l-1]==nums[l]) continue; 
-                        while( --h>=l && nums[h]==nums[h+1]) continue; 
+                        
+                    while(++l<=h && nums[l-1]==nums[l]) continue; 
+                    while( --h>=l && nums[h]==nums[h+1]) continue; 
                         
                     }
                     
