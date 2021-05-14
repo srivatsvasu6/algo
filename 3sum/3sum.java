@@ -1,38 +1,44 @@
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
-        List<List<Integer>> res = new ArrayList<>();
-       Arrays.sort(nums);
-            
+        Arrays.sort(nums);
+        int n = nums.length;
+        int j=0, k=0, sum=0;
+      List<List<Integer>> ls = new ArrayList<>();
         for(int i=0; i< nums.length -2; i++){
-           if (i > 0 && nums[i] == nums[i - 1]) 
+            if(i>0 && nums[i] == nums[i-1]){
                 continue;
+            }
             
-            searchPair(nums, -nums[i], i+1, res);
+            j= i+1;
+            k= n -1;
+            sum = 0 - nums[i];
+            
+            while(j < k){
+                
+      
+                if( nums[j] + nums[k] == sum){
+                    ls.add(Arrays.asList(nums[i], nums[j], nums[k]));
+                       
+                     while(j<k && nums[j] == nums[j+1]) j++;
+                     while(j<k && nums[k] == nums[k-1]) k--;
+                    
+                        j++;
+                        k--;
+                     
+                }else if(nums[j] + nums[k] < sum){
+                    j++;
+                }else{
+                    k--;
+                }
+        
+                 
+            }
+      
             
             
         }
         
-        return res;
-        
+        return ls;
         
     }
-    
-  private static void searchPair(int[] arr, int targetSum, int left, List<List<Integer>> triplets) {
-    int right = arr.length - 1;
-    while (left < right) {
-      int currentSum = arr[left] + arr[right];
-      if (currentSum == targetSum) { // found the triplet
-        triplets.add(Arrays.asList(-targetSum, arr[left], arr[right]));
-        left++;
-        right--;
-        while (left < right && arr[left] == arr[left - 1])
-          left++; // skip same element to avoid duplicate triplets
-        while (left < right && arr[right] == arr[right + 1])
-          right--; // skip same element to avoid duplicate triplets
-      } else if (targetSum > currentSum)
-        left++; // we need a pair with a bigger sum
-      else
-        right--; // we need a pair with a smaller sum
-    }
-  }
 }
