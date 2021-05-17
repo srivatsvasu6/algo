@@ -1,25 +1,19 @@
 class Solution {
     public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> list = new ArrayList<>();
         
-        List<List<Integer>> res = new ArrayList<>();
-        
-        if(nums==null || nums.length==0)
-            return res;
-       
-             dfs(res,new ArrayList<>(), 0,nums);
-        
-        return res;
-        
+        backTrack(list, new ArrayList<>(), nums, 0);
+        return list;
     }
     
-    public void dfs( List<List<Integer>> res, List<Integer> curr, int start, int[] nums)    {   
-    res.add(new ArrayList<>(curr));
-    for(int i = start; i < nums.length; i++){
-        curr.add(nums[i]);
-        dfs(res, curr, i + 1, nums);
-        curr.remove(curr.size() - 1);
+    public void backTrack(List<List<Integer>> list, List<Integer> temp, int[] nums, int start){
+        
+        list.add(new ArrayList<>(temp));
+        
+        for(int i=start; i<nums.length; i++){
+            temp.add(nums[i]);
+             backTrack(list, temp, nums, i+1);
+            temp.remove(temp.size()-1);
+        }
     }
-      
-    }
-
 }
