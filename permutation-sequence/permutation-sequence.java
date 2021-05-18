@@ -1,35 +1,31 @@
 class Solution {
-
-    
     public String getPermutation(int n, int k) {
-        List<Integer> numbers = new ArrayList<>();
        
+        int fact = 1;
+        List<Integer> nums = new ArrayList<>();
        
-        for(int i= 1; i<=n; i++){
-           numbers.add(i);
+        for(int i=1; i<n; i++){
+            fact = fact * i;
+            nums.add(i);
         }
-        int[] fact = new int[n+1];
+           nums.add(n);
         
-        fact[0] = 1;
-        int sum= 1;
-        for(int i=1; i<=n; i++){
-            sum *= i;
-            fact[i] = sum;
+        StringBuilder sb = new StringBuilder();
+        k=k-1;
+        while(!nums.isEmpty()){
+            
+            sb.append(nums.get(k/fact));
+            nums.remove(k/fact);
+            if(nums.isEmpty()){
+                break;
+            }
+            k = k%fact;
+            fact = fact / nums.size();
+            
         }
         
-        k--;
-        
-     StringBuilder res = new StringBuilder();
+        return sb.toString();
         
         
-    for(int i = 1; i <= n; i++){
-        int index = k/fact[n-i];
-        res.append(String.valueOf(numbers.get(index)));
-        numbers.remove(index);
-        k -= index*fact[n-i];
-     }
-        
-      
-        return res.toString();
     }
 }
