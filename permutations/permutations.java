@@ -1,40 +1,27 @@
 class Solution {
     public List<List<Integer>> permute(int[] nums) {
-       List<List<Integer>> list = new ArrayList<List<Integer>>();
-        if(nums == null){
-            return list;
-        }
-        
-        dfs(new ArrayList<Integer>(), 0, list, nums );
-        
-        return list;
-        
-        
+        List<List<Integer>> res = new ArrayList<>();
+        backtrack(res, new ArrayList<>(),nums);
+        return res;
     }
     
-     private void swap(int[] A, int i, int j) {
-        int temp = A[i];
-        A[i] =  A[j];
-        A[j] = temp;
-    }
-    
-    public void dfs(List<Integer> paths ,int pos, List<List<Integer>> list ,int[] nums ){
+    public void backtrack(List<List<Integer>> res , List<Integer> temp, int[] nums){
         
-        if(paths.size() == nums.length){
-            list.add(new ArrayList<>(paths));
-            return;
-        }
-        for(int i=pos; i<nums.length; i++){
-
-            paths.add(nums[i]);
-            swap(nums, i, pos);
+        if(temp.size() == nums.length){
+            res.add(new ArrayList<>(temp));
             
-            dfs(paths, pos+1, list, nums);
-           
-            paths.remove(paths.size()-1);
-            swap(nums, i, pos);
+        }else{
+            
+            for(int i=0; i<nums.length; i++){
+                if(!temp.contains(nums[i])){
+                    
+                    temp.add(nums[i]);
+                    backtrack(res,temp,nums);
+                    temp.remove(temp.size()-1);
+                }
+                
+            }
         }
         
-
     }
 }
