@@ -10,31 +10,25 @@
 
 class Solution {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-      
-        int pval = p.val;
-        
-        int qval = q.val;
-        
-        TreeNode node = root;
-        
-        while(node!=null){
+         
+        while(root!=null){
             
-            int parent = node.val;
-            
-            if(pval> parent && qval> parent){
-                node = node.right;
-            }else if(pval<parent && qval< parent){
-                node = node.left;
+            int  value = root.val;
+        
+            if(value > p.val && value > q.val){
+                System.out.println("left");
+                root = root.left;
+            }else if(value < p.val && value < q.val){
+                root = root.right;
+                 System.out.println("r");
             }else{
-                return node;
+                 System.out.println("ams");
+                return root;
             }
-        }
-
+            
+         }
+        
         return null;
- 
     }
     
-  
-    
-   
 }
