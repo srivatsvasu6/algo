@@ -2,54 +2,64 @@ class Solution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
          Map<Integer, List<Integer>> map = new HashMap<>();
         
-        int[] indegree = new int[numCourses];
-       
-        int[] topSort = new int[numCourses];
+         for(int i=0; i<numCourses; i++){
+            map.put(i, new ArrayList<>());
+         }
         
         
-        for(int i=0; i<prerequisites.length; i++){
+        for(int[] pre: prerequisites){
+         
+            map.get(pre[0]).add(pre[1]);
             
-            int src= prerequisites[i][1];
-            int dest= prerequisites[i][0];
-             List<Integer> lst =  map.getOrDefault(src, new ArrayList<Integer>());
-            lst.add(dest);
-            map.put(src, lst);
-            indegree[dest] ++;
-              
+           
         }
         
-        Queue<Integer> q = new LinkedList<>();
+        
+        List<Integer> stack = new ArrayList<>();
+        int[] visited = new int[numCourses];
+      
+        
         for(int i=0; i<numCourses; i++){
-            if(indegree[i]==0){
-                q.add(i);
+            if(visited[i]==0 && !dfs(i, map, stack, visited)){
+                return new int[0]; 
             }
+
         }
         
-        int i=0;
+        int[] res = new int[stack.size()];
+        int i = numCourses;
+        for(int n: stack)
+            res[--i] = n;
         
-        while(!q.isEmpty()){
-            
-            int node = q.poll();
-            topSort[i++] = node;
-            
-            if(map.containsKey(node)){
-                
-                for(Integer course: map.get(node)){
-                    
-                    indegree[course]--;
-                    
-                    if(indegree[course] ==0){
-                        q.offer(course);
-                    }
-                    
-                }
-            }
-            
-        }
+        return res;
+        
+        
+    }
     
-      
-      
-        return (i== numCourses) ? topSort : new int[0];
+    public boolean dfs( int node,  Map<Integer, List<Integer>> map ,  List<Integer> stack,    int[] visited){
+       if(visited[node]==1)
+           return true;
+       else if(visited[node]==-1)
+           return false;
+        visited[node] = -1;
+        
+        if(!map.containsKey(node))
+            return true;
+        
+        for(Integer adj : map.get(node)){
+  
+                if(!dfs(adj, map, stack, visited)){
+                    return false;
+                }
+            
+        }
+        visited[node] = 1;
+        
+         stack.add(0, node);
+          
+        
+       return true;
+        
     }
     
   
