@@ -1,37 +1,36 @@
 class Solution {
     public String longestPalindrome(String s) {
         
-        int start =0, end =0;
         
-        int n = s.length();
+        if(s==null ||s.length()<1) return "";
         
-        for(int i=0; i<n; i++){
+        int start =0, end = 0;
+        
+        for(int i =0; i<s.length(); i++){
             
-          int len1 =  expandPal(s, i, i);
-          int len2 =  expandPal(s, i, i+1);
+            int l1 = palLength(s, i, i);
+            int l2 = palLength(s, i, i+1);
             
-           int len = Math.max(len1,len2);
+            int l = Math.max(l1, l2);
             
-            if(len > end - start){
-                start = i - ((len -1)/2);
-                end = i + len/2;
+            if(l > end - start){
+                start = i - (l - 1)/2;
+                end = i + l/2;
             }
             
         }
-        
         return s.substring(start, end+1);
         
         
     }
     
-    public int expandPal(String s, int l, int r){
+    public int palLength(String s, int i, int j){
         
-        while (l >=0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
-           l--;
-           r++;
+        while( i>=0 && j<s.length() && s.charAt(i)== s.charAt(j)){
+            i--;
+            j++;
         }
         
-        return r-l-1;
+        return j- i -1;
     }
-    
 }
