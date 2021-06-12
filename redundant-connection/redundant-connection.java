@@ -1,29 +1,63 @@
 class Solution {
     public int[] findRedundantConnection(int[][] edges) {
-       int n =edges.length;
-        int[] parents = new int[n+1];
         
-        for(int i=0; i<=n; i++)
-            parents[i] = i;
         
-        int[] res = new int[2];
+        int n = edges.length;
         
-        for (int i = 0; i < n; i++) {
- 			int x = find(edges[i][0], parents);
- 			int y = find(edges[i][1], parents);
- 			if (x != y)
- 				parents[y] = x;
- 			else {
- 				res[0] = edges[i][0];
- 				res[1] = edges[i][1];
- 			}
- 		}
+        UnionFind uf = new UnionFind(1000+1);
+        List<int[]> res = new ArrayList<>();
+        for(int[] edge: edges){
+            
+            if(!uf.union(edge[0], edge[1])){
+               return edge;
+            }
+            
+        }
         
-        return res;
-    
+        return new int[]{-1,-1};
+        
     }
     
-    public int find(int val, int[] parents){
-       return parents[val] == val? val: find(parents[val], parents);
+    public class UnionFind{
+        
+        int[] parents;
+        int[] rank;
+        
+        public UnionFind(int n){
+            parents = new int[n];
+            rank = new int[n];
+            for(int i =0; i<n; i++){
+                parents[i] = i;
+            
+            }
+        }
+        
+        public int find(int x) {
+        if (parents[x] != x) parents[x] = find(parents[x]);
+        return parents[x];
+        }
+
+        
+        public boolean union(int i, int j){
+            int i1 = find(i);
+            int i2 = find(j);
+            
+            if(i1 == i2){
+                return false;
+            } else if(rank[i1]> rank[i2]){
+                parents[i2] = i1;
+            }else if(rank[i2] > rank[i1]){
+                parents[i1] = i2;
+            }else{
+                parents[i2] = i1;
+                rank[i1]++;
+            }
+            
+            
+            
+            return true;
+            
+            
+        }
     }
 }
