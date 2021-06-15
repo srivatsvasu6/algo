@@ -1,39 +1,70 @@
 class Solution {
     public int findCircleNum(int[][] isConnected) {
-        
-        
-        if(isConnected==null || isConnected.length ==0)
-            return 0;
-        int count = 0;
-        int[] visited = new int[isConnected.length];
-        for(int i=0; i<isConnected.length; i++){
+        int m = isConnected.length;
+        int n = isConnected[0].length;
+        UnionFind uf = new UnionFind(n);
+        for(int i=0; i<m; i++){
             
-            if(visited[i]==0){
+            for(int j=0; j<n; j++){
                 
-                dfs(isConnected, visited, i);
-                count++;
+                if(isConnected[i][j]==1){
+                    uf.union(i, j);
+                }
             }
         }
-    
-        return count;
         
+        return uf.getSize();
     }
     
-    public void dfs(int[][] isConnected,   int[] visited, int i){
+    class UnionFind{
         
-        if(visited[i]==1){
-            return;
-        }
-        
-        visited[i] = 1;
-       for(int J=0; J<isConnected.length; J++){
-            
-            
-            if(visited[J]==0 && isConnected[i][J]==1){
-                
-                dfs(isConnected, visited, J);
-             
+        int[] parents;
+        int[] weights;
+        int nodes =0;
+        public UnionFind(int n){
+            parents = new int[n];
+            weights = new int[n];
+            nodes = n;
+            for(int i = 0; i<n; i++){
+                parents[i] = i;
+                weights[i] = 1;
             }
         }
+        
+        public int find(int i){
+            if(parents[i] !=i){
+                parents[i] = find(parents[i]);
+            }
+            return parents[i];
+        }
+        
+        public void union(int i1, int i2){
+            
+            int n1 = find(i1);
+            int n2 = find(i2);
+            
+            if(n1 == n2){
+                return;
+            }
+            nodes--;
+            
+            int size = weights[n1] + weights[n2];
+            
+            if(weights[n1] >= weights[n2]){
+                parents[n2] = n1;
+                weights[n1] = size;
+                weights[n2] = 0;
+            }else{
+                parents[n1] = n2;
+                weights[n2] = size;
+                weights[n1] = 0;
+            }
+        }
+        
+        public int getSize(){
+            return nodes;
+        }
+        
+        
     }
 }
