@@ -1,44 +1,36 @@
 class Solution {
     public void rotate(int[][] matrix) {
-        int n = matrix.length;
-        for(int i=0; i<n; i++){
-            
-            for(int j=0; j<i; j++){
-                swap(matrix, i, j);
+        
+
+               
+          transpose(matrix);
+          reflect(matrix);
+        
+        
+    }
+    
+    public void reflect(int[][] matrix){
+          int n = matrix.length;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n/2; j++) {
+                int tmp = matrix[i][j];
+                matrix[i][j] = matrix[i][n- 1- j];
+                matrix[i][n-1-j] = tmp;
+                
             }
         }
         
-    for(int i=0; i<n; i++){
-      reverse(matrix[i]);
-
-    }
-        
     }
     
-    public void swap(int[][] arr, int i, int j){
-        int tmp = arr[i][j];
-        arr[i][j] = arr[j][i];
-        arr[j][i] = tmp;
-    }
     
-     public void reverse(int[] arr){
-      int i=0, j = arr.length-1;
-         while(i<j){
-             
-        int tmp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = tmp;
-             
-            i++;
-            j--;
-         }
-         
-       
+   public void transpose(int[][] matrix) {
+        int n = matrix.length;
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                int tmp = matrix[j][i];
+                matrix[j][i] = matrix[i][j];
+                matrix[i][j] = tmp;
+            }
+        }
     }
 }
-
-/**
-1 4 7
-2 5 8
-3 6 9
-**/
