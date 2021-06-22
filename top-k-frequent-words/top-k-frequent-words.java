@@ -9,15 +9,23 @@ class Solution {
         }
         System.out.println(map);
         
-        PriorityQueue<Map.Entry<String, Integer>> pq = new PriorityQueue<>((a,b) -> compare(b, a));
+        PriorityQueue<Map.Entry<String, Integer>> pq = new PriorityQueue<>((a,b) -> compare(a, b));
         
-        pq.addAll(map.entrySet());
-       List<String> res = new ArrayList<>();
-        for(int i=0; i<k; i++){
-            if(!pq.isEmpty()){
-                res.add(pq.poll().getKey());
-            }
+      
+
+        for(Map.Entry<String,Integer> ent: map.entrySet()){
+          
+            pq.offer(ent);
+              if(pq.size()>k){
+                  pq.poll();
+              }
         }
+        
+       List<String> res = new LinkedList<>();
+        
+        while(!pq.isEmpty())
+            res.add(0, pq.poll().getKey());
+        
         return res;
             
     }
