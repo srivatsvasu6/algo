@@ -1,48 +1,28 @@
 class Solution {
     public int trap(int[] height) {
         
-    if(height ==null || height.length<2){
-        return 0;
-    }
         
-        int n = height.length;
+        int l = 0, r= height.length-1, lm=0, rm = 0, res =0;
         
-        int l =0, r = n-1, lm = 0, rm = 0, res =0;
         
-        while(l<r){
+        while(l< r){
             
-            
-            if(height[l] <= height[r]){
+            if(height[l]< height[r]){
+                lm = Math.max(lm, height[l]);
                 
-                if(height[l]> lm){
-                    lm = height[l];
-                    
-                }else{
-                    res +=  lm - height[l];
-                }
-                
+                res += lm - height[l];
                 l++;
                 
             }else{
+                  rm = Math.max(rm, height[r]);
                 
-                  
-                if(height[r]> rm){
-                    rm = height[r];
-                    
-                }else{
-                    res +=  rm - height[r];
-                }
-                
+                res += rm - height[r];
                 r--;
                 
             }
             
-            
         }
         
         return res;
-        
-        
-        
     }
 }
