@@ -16,11 +16,10 @@ class Solution {
         Arrays.fill(parents , -1);
         Arrays.fill(disc , -1);
         
-        for(int i = 0; i<n; i++){
-            if(disc[i]==-1)
-                dfs(graph, i, low, disc, parents, res);
+       
+                dfs(graph, 0, low, disc, parents, res);
     
-        }
+        
         
         return res;
         
