@@ -10,40 +10,62 @@
  */
 class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
-     
         
-        if(head ==null || k==1)
-            return head;
-        
-        int count =0;
         ListNode curr = head;
-      
-        while(curr!=null){
-            curr = curr.next;
-            count++;
-            
-        }
-        ListNode dummy = new ListNode();
-        dummy.next = head;
-        ListNode next = dummy, pre = dummy;
+         ListNode prev = null;
         
-        while(count >= k){
-            curr = pre.next;
-            next = curr.next;
-           
-            for(int i=1; i<k; i++){
+        // Head of the final, moified linked list
+        ListNode new_head = null;
+         ListNode ktail = null;
+        
+        
+        while(curr!=null){
+            
+        int count = 0;
+            curr = head;
+            
+            while(count< k && curr !=null){
                 
-                curr.next  = next.next;
-                next.next = pre.next;
-                pre.next = next;
-                next = curr.next;
+                curr = curr.next;
+                count++;
             }
             
-            pre = curr;
-            count -= k;
-
+            if(count ==k){
+                ListNode rev = reverse(head, k);
+                
+                if(new_head ==null)
+                    new_head = rev;
+                
+                if(ktail !=null){
+                    ktail.next = rev;
+                }
+                
+                ktail = head;
+                head = curr;
+            }
+            
         }
         
-        return dummy.next;
+            // attach the final, possibly un-reversed portion
+        if (ktail != null)
+            ktail.next = head;
+        
+        return new_head == null ? head : new_head;
+        
+    }
+    
+    public ListNode reverse(ListNode head, int k){
+         ListNode prev = null;
+        ListNode curr = head;
+        while(k > 0 && curr!=null){
+            ListNode next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+            k--;
+        }
+        
+        return prev;
+        
     }
 }
