@@ -1,62 +1,58 @@
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-      
-        char[] ALPHABETS = new char[26];
         
-        for(int i=0 ; i<26; i++ ){
-           ALPHABETS[i] =  (char) (i + 'a');
-        }
-        Set<String> words = new HashSet(wordList);
-        int length = 0;
+        
         Queue<String> queue = new LinkedList<>();
+
+        Set<String> words = new HashSet<>(wordList);
         
         queue.offer(beginWord);
+        words.remove(beginWord);
+        int level = 0;
         
         while(!queue.isEmpty()){
             
-            int n = queue.size();
-            length++;
-            for(int i=0; i<n; i++)
+            level++;
             
-           { 
+            for(int i = queue.size(); i>0; i--){
+                
                 String word = queue.poll();
-          
-                for(int j=0; j< word.length(); j++){
-                    
-                  for(char c: ALPHABETS ){
-                      
-                      StringBuilder sb = new StringBuilder(word.length());
-                      sb.append(word.substring(0, j));
-                      sb.append(c);
-                      sb.append(word.substring(j+1));
-                      
-                      String newWord = sb.toString();
-                      if(!words.contains(newWord))
-                          continue;
-                      
-                      if(newWord.equals(endWord))
-                          return length+1;
-                      
-                      queue.offer(newWord);
-                     
-                      words.remove(newWord);
-                     
-                  }
-                    
-                    
-                    
+                
+                if(endWord.equals(word)){
+                    return level;
                 }
-           
-           }
-            
-            
-            
-           
-            
+                for(String newWord : getNeighbour(word)){
+                    
+                    if(words.contains(newWord)){
+                        queue.offer(newWord);
+                        words.remove(newWord);
+                        
+                    }
+                }
+                
+                
+                
+            }
         }
         
         return 0;
-        
-        
     }
+    
+   private List<String> getNeighbour(String word){
+       
+       List<String>  res = new LinkedList<>();
+       
+       for(int j = 0; j<word.length(); j++){
+             char[] ch = word.toCharArray();
+           for(char i='a'; i<='z'; i++){
+            
+              ch[j] = i;
+              res.add(new String(ch)); 
+            }
+           
+       }
+       
+       return res;
+       
+   }
 }
