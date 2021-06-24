@@ -16,24 +16,23 @@ class Node {
 class Solution {
     public Node copyRandomList(Node head) {
         
-        
-     if(head == null) return head;
-        
         Node curr = head;
-
+    
+        if(head == null){
+            return head;
+        }
         
-        while(curr.next!=null){
-
-            Node copy =new Node(curr.val);
+        while(curr!=null){
+            
+            Node copy = new Node(curr.val);
             copy.next = curr.next;
             curr.next = copy;
             curr = curr.next.next;
-           
+                
         }
-        curr.next = new Node(curr.val);
-       
+        
+        
         curr = head;
-    
         
         while( curr!=null ){
             if(curr.random != null){
@@ -59,7 +58,7 @@ class Solution {
         curr.next=null;
     
         return res;
-        
+
         
     }
 }
