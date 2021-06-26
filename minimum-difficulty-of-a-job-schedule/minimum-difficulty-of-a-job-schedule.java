@@ -28,7 +28,7 @@ class Solution {
         if(memo[day][pos] !=-1){
             return memo[day][pos];
         }
-         max = Integer.MIN_VALUE;
+         max = 0;
         int min = Integer.MAX_VALUE;
         
         for(int i = pos; i<k.length-d; i++){
