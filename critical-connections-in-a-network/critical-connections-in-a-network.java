@@ -1,72 +1,40 @@
 class Solution {
-    int seq = 0;
+    List<List<Integer>> result;
+    int time = 0;
     
     public List<List<Integer>> criticalConnections(int n, List<List<Integer>> connections) {
+        List<Integer>adj[] = new ArrayList[n];
+        for(int i = 0; i < n; i++)
+            adj[i] = new ArrayList<>();
         
-        List<List<Integer>> res = new ArrayList<>();
-        
-        List<Integer>[] graph = new List[n];
-        
-        buildgraph(graph, connections);
-        int[] low= new int[n];
-        int[] disc= new int[n];
-        int[] parents= new int[n];
-        
-        Arrays.fill(low , -1);
-        Arrays.fill(parents , -1);
-        Arrays.fill(disc , -1);
-        
-       
-                dfs(graph, 0, low, disc, parents, res);
-    
-        
-        
-        return res;
-        
-         
-    }
-    
-    private void dfs(List<Integer>[] graph, int u, int[] low, int[] disc, int[] parents ,  List<List<Integer>> res){
-        if(disc[u] !=-1)
-            return;
-        
-        low[u]= disc[u] = seq++;
-        
-        
-        for(int v: graph[u]){
+        for(List<Integer> edge : connections){
+            int a = edge.get(0);
+            int b = edge.get(1);
             
-            if(disc[v]==-1){
-                parents[v] = u;
-                 dfs(graph, v, low, disc, parents, res);
-                 low[u] = Math.min(low[u], low[v]);
-                
-                if(low[v] > disc[u]){
-                    res.add(Arrays.asList(u, v));
-                }
-            }else if (parents[u] != v) {
-                 low[u] = Math.min(low[u], disc[v]);
-            }
+            adj[a].add(b);
+            adj[b].add(a);
         }
         
-        
+        int timestamp[] = new int[n];
+        boolean visited[] = new boolean[n];
+        result = new ArrayList<>();
+        dfs(adj, visited, timestamp, 0, -1);
+        return result;
     }
     
-    private void buildgraph( List<Integer>[] graph,  List<List<Integer>> connections) {
+    void dfs(List<Integer>[]adj, boolean[] visited, int[] timestamp, int vertex, int prev){
+        visited[vertex] = true;
+        timestamp[vertex] = time++;
+        int currentTimeStamp = timestamp[vertex];
         
-     for(List<Integer> c:  connections)  {
-         
-         int u = c.get(0);
-         int v  = c.get(1);
-         
-         if(graph[u]== null){
-             graph[u] = new ArrayList<>();
-         }
-         if(graph[v]== null){
-             graph[v] = new ArrayList<>();
-         }
-         graph[u].add(v);
-         graph[v].add(u);
-         
-     } 
+        for(int v : adj[vertex]){
+            if(v == prev) continue;
+            
+            if(!visited[v])
+                dfs(adj, visited, timestamp, v, vertex);
+            timestamp[vertex] = Math.min(timestamp[vertex], timestamp[v]);
+            if(currentTimeStamp < timestamp[v])
+                result.add(Arrays.asList(vertex, v));
+        }
     }
 }
