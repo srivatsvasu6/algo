@@ -32,9 +32,9 @@ class Solution {
             if(maxLeftX <= minRightY && maxLeftY <= minRightX ){
                 
               if ((x + y) % 2 == 0) {
-                    return ((double)Math.max(maxLeftX, maxLeftY) + Math.min(minRightX, minRightY))/2;
+                    return ((double) Math.max(maxLeftX, maxLeftY) + Math.min(minRightX, minRightY))/2;
                 } else {
-                    return (double)Math.max(maxLeftX, maxLeftY);
+                    return (double) Math.max(maxLeftX, maxLeftY);
                 }
             }else if( maxLeftX > minRightY ){
                 r  = px -1;
