@@ -1,36 +1,39 @@
 class Solution {
     
-
-        
+   public static final List<String> NUM_LIST = Arrays.asList("","", "abc" ,"def","ghi", "jkl", "mno", "pqrs", "tuv", "wxyz");
+    
     public List<String> letterCombinations(String digits) {
         
-        String[] map = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
-        List<String> res = new ArrayList<>();
-        if(digits !=null && digits.length()> 0){
-          dfs(new StringBuilder(), map, res, digits.toCharArray());
+        if(digits==null || digits.length()==0){
+            return new ArrayList<>();
         }
-       
+        List<String> res = new ArrayList<>();
+        
+        backtrack(digits, 0, res, new StringBuilder());
+        
         return res;
         
     }
     
-    public void dfs(StringBuilder paths, String[] map, List<String> res, char[] digits ){
+    public void backtrack(String digits, int pos, List<String> res, StringBuilder sb){
         
-        if(paths.length() == digits.length){
-            res.add(paths.toString());
-            return;
+        if(pos == digits.length()){
+           
+            res.add(sb.toString());
+            
+        }else{
+            int digit = digits.charAt(pos) - '0';
+            String letter = NUM_LIST.get(digit);
+            
+            for(char c: letter.toCharArray()){
+                sb.append(c);
+                
+              backtrack(digits, 1+ pos, res, sb);
+                
+              sb.deleteCharAt(sb.length() - 1);
+            }
+            
+            
         }
-        
-        int ch = Character.getNumericValue(digits[paths.length()]);
-        
-        for(char c : map[ch].toCharArray()){
-            
-            paths.append(c);
-            
-            dfs(paths,map, res, digits);
-            
-            paths.deleteCharAt(paths.length()-1);
-        }
-        
     }
 }
