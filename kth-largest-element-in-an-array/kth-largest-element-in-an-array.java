@@ -1,49 +1,61 @@
 class Solution {
     public int findKthLargest(int[] nums, int k) {
         
-        k = nums.length - k+ 1;
-      
-        return findKthSmallestNumberRec(nums, k, 0, nums.length - 1);
+        int size = nums.length;
+        
+       return  quickSelect(nums, 0, size-1, size-k);
+        
+        
+    }
+    private void swap(int[] nums, int i, int j){
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
+    private  int partition(int[] nums, int lo, int hi, int pivot_idx){
+        int pivot = nums[pivot_idx];
+        
+        swap(nums, pivot_idx, hi);
+        
+       for(int i = lo; i<= hi; i++){
+           
+           if(nums[i] < pivot){
+               swap(nums, i, lo);
+               lo++;
+           }
+       }
+        
+        swap(nums, lo, hi);
+        
+        return lo;
+        
     }
     
-    
-  public  int findKthSmallestNumberRec(int[] nums, int k, int start, int end) {
-    int p = partition(nums, start, end);
-
-    if (p == k - 1)
-      return nums[p];
-
-    if (p > k - 1) // search lower part
-      return findKthSmallestNumberRec(nums, k, start, p - 1);
-
-    // search higher part
-    return findKthSmallestNumberRec(nums, k, p + 1, end);
-  }
-    
-private  int partition(int[] nums, int low, int high) {
-    if (low == high)
-      return low;
-
-    Random randomNum = new Random();
-    int pivotIndex = low + randomNum.nextInt(high - low);
-    swap(nums, pivotIndex, high);
-
-    int pivot = nums[high];
-    for (int i = low; i < high; i++) {
-      // all elements less than 'pivot' will be before the index 'low'
-      if (nums[i] < pivot)
-        swap(nums, low++, i);
-    }
-    // put the pivot in its correct place
-    swap(nums, low, high);
-    return low;
-  }
-
- 
-
-    public  void swap(int[] arr, int i, int j){
-        int tmp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = tmp;
+    private int quickSelect(int[] nums, int lo, int hi, int k_small){
+        
+        while(lo <=hi)
+        {
+            if(lo == hi)
+                return nums[lo];
+        
+        Random rand = new Random();
+        int pivot_idx =   lo + rand.nextInt(hi - lo);
+            
+        pivot_idx = partition(nums, lo, hi, pivot_idx);
+        
+        if(pivot_idx < k_small ){
+            lo = pivot_idx + 1;
+        }else if(pivot_idx > k_small){
+            hi = pivot_idx -1;
+            
+        }else{
+            return nums[pivot_idx];
+        }
+            
+            
+        
+        }
+        
+        return -1;
     }
 }
