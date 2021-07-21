@@ -2,35 +2,34 @@ class Solution {
     public String longestPalindrome(String s) {
         
         
-        if(s==null ||s.length()<1) return "";
-        
-        int start =0, end = 0;
-        
-        for(int i =0; i<s.length(); i++){
+        if(s==null ||s.length()==0)
+            return "";
+        int end = 0, start =0;
+        for(int i =0; i<s.length();i++){
             
-            int l1 = palLength(s, i, i);
-            int l2 = palLength(s, i, i+1);
+            int len1 = findPal(s, i, i);
+            int len2 = findPal(s, i, i+1);
             
-            int l = Math.max(l1, l2);
+            int len = Math.max(len1,len2);
             
-            if(l > end - start){
-                start = i - (l - 1)/2;
-                end = i + l/2;
+            if(len > end - start){
+                start = i - (len-1)/2;
+                end = i + len/2;
             }
-            
         }
+        
         return s.substring(start, end+1);
-        
-        
     }
     
-    public int palLength(String s, int i, int j){
+    private int findPal(String s, int left, int right){
         
-        while( i>=0 && j<s.length() && s.charAt(i)== s.charAt(j)){
-            i--;
-            j++;
+        int l = left, r = right;
+        
+        while(l>=0 && r<s.length() && s.charAt(l)== s.charAt(r)){
+            l--;
+            r++;
         }
         
-        return j- i -1;
+        return r- l -1;
     }
 }
