@@ -9,12 +9,14 @@ class Solution {
     public void dfs(List<String> arr, int index, String res){
          if (isValid(res)) maxLen = Math.max(maxLen, res.length());
         
+       
+        
         if (index == arr.size() || !isValid(res))  return;
         
-        for(int i = index; i< arr.size(); i++){
+             dfs(arr, index+1, res);
             
-            dfs(arr, i+1, res + arr.get(i));
-        }
+             dfs(arr, index+1, res + arr.get(index));
+        
         
         
     }
