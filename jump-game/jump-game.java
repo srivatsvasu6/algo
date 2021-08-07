@@ -1,26 +1,30 @@
 class Solution {
     public boolean canJump(int[] nums) {
-        if(nums.length==1)
-            return true;
         
+        Index[] memo = new Index[nums.length];
+        Arrays.fill(memo, Index.UNKNOWN);
+     
+        memo[memo.length-1] = Index.GOOD;
         
-        int maxReach = nums[0], steps = nums[0], jump = 0;
-        
-        for(int i=1; i< nums.length-1; i++){
+        for(int i = nums.length -2; i>=0; i--){
             
-            maxReach = Math.max(maxReach, nums[i]+i);
-            
-            steps--;
-            if(steps ==0){
+            int maxJum = Math.min(nums[i]+ i, nums.length-1);
+           
+            for(int j = i+1; j<=maxJum; j++){
                 
-                jump++;
-                steps = maxReach -i;
-                
+                if(memo[j] == Index.GOOD){
+                    memo[i] = Index.GOOD;
+                    break;
+                }
             }
         }
         
-        System.out.println( jump+1);
-       System.out.println( maxReach+ " " + steps);
-        return steps>0;
+        return memo[0]==Index.GOOD;
     }
+    
+    
+}
+
+enum Index{
+    BAD, UNKNOWN, GOOD
 }
