@@ -14,46 +14,23 @@
  * }
  */
 class Solution {
-    
-    class Pair{
-        
-        TreeNode node;
-        int max;
-        Pair(){
-            
-        }
-        Pair(TreeNode node,int max){
-            this.node = node;
-            this.max = max;
-        }
-        
-    }
+    int max = 0;
     public int goodNodes(TreeNode root) {
-        int count = 0;
         
-        TreeNode curr = root;
+       return helper(root, -10000);
+    }
+    
+    public int helper(TreeNode root, int min){
         
-        Deque<Pair> queue = new LinkedList<>();
-        queue.offer(new Pair(root,root.val));
-        
-        while(!queue.isEmpty()){
-            
-            Pair p = queue.poll();
-            TreeNode node = p.node;
-            int max = p.max;
-            if(node.val>= max){
-                max = node.val;
-                count++;
-                
-            }
-            if(node.left!=null)
-                queue.offer(new Pair(node.left, max));
-             if(node.right!=null)
-               queue.offer(new Pair(node.right, max));
-        
-        }
+        if(root == null)
+            return 0;
+        int cnt = 0; 
        
+        cnt += (root.val >= min)? 1: 0;
         
-        return count;
+        cnt += helper(root.left, Math.max(root.val, min));
+        cnt += helper(root.right, Math.max(root.val, min));
+        
+        return cnt;
     }
 }
