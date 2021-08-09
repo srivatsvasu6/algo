@@ -1,35 +1,25 @@
 class Solution {
     public boolean isAnagram(String s, String t) {
         
-        int matched = 0;
-        if(s==null && t==null){
-            return true;
-        }
-        if(s==null || t==null){
-            return false;
-        }
-        if(s.length() != t.length()){
-            return false;
+        int[] res = new int[26];
+        
+        for(char c: s.toCharArray()){
+            res[c-'a']++;
         }
         
-        if(s==t || s.equals(t)){
-            return true;
+        for(char c : t.toCharArray()){
+         
+            if(res[c - 'a'] > 0){
+                res[c-'a']--;
+            }else
+                return false;
         }
         
-      List<Character> ls = new ArrayList<>();
-        
-        for(char ch: s.toCharArray()){
-            
-            ls.add(ch);
+        for(int i =0; i< 26; i++){
+            if(res[i] !=0)
+                return false;
         }
         
-        for(char ch: t.toCharArray()){
-             
-              ls.remove(Character.valueOf(ch));
-            
-        }
-        
-       
-        return ls.isEmpty();
+        return true;
     }
 }
