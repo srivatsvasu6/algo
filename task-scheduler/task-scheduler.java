@@ -1,42 +1,53 @@
 class Solution {
     public int leastInterval(char[] tasks, int n) {
         
+        if(n==0)
+            return tasks.length;
+        
         Map<Character, Integer> freq = new HashMap<>();
         
-        for(char ch: tasks){
-            freq.put(ch, freq.getOrDefault(ch, 0) + 1);
+        for(char task: tasks){
+            
+            freq.put(task, freq.getOrDefault(task,0)+1);
         }
-        int cnt =0;
-      PriorityQueue< Map.Entry<Character, Integer>> pq = new PriorityQueue<>((a,b)-> b.getValue() - a.getValue());
         
+        PriorityQueue<Map.Entry<Character,Integer>> pq = new PriorityQueue<>((a,b)-> (b.getValue() == a.getValue())? a.getKey()-b.getKey(): b.getValue() - a.getValue());
+        int k = 0;
         pq.addAll(freq.entrySet());
+       
+       
+        int count = 0;
         
         while(!pq.isEmpty()){
-            
-            int k = n+1;
-            List<Map.Entry<Character, Integer>> waitList = new ArrayList<>();
-            
-            for(; k>0 && !pq.isEmpty(); k--){
-                cnt++;
-                Map.Entry<Character, Integer> top = pq.poll();
-                
-                if(top.getValue() > 1){
-                    top.setValue(top.getValue()  -1 );
-                    waitList.add(top);
+            k = n + 1;
+         List<Map.Entry<Character,Integer>> ls = new ArrayList<>();
+        
+            while( !pq.isEmpty() && k > 0 )
+           { 
+                Map.Entry<Character, Integer> ent = pq.poll();
+                ent.setValue(ent.getValue() - 1);
+                System.out.print(ent.getKey()+"->");
+                if(ent.getValue() > 0){
+                    ls.add(ent);
                 }
-     
-            }
-            pq.addAll(waitList);
-            
-            if (!pq.isEmpty())
-            cnt += k;
+                k--;
+                count++;
+           }
+              pq.addAll(ls);
+        
+            if(pq.isEmpty())
+                break;
 
+            IntStream.of(k).forEach(i-> System.out.print("idle->"));
+            
+            count += k;
+        
+        
+          
+            
+            
         }
         
-       
-        return cnt;
-        
-       
-        
+        return count;
     }
 }
