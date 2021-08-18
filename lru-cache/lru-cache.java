@@ -1,118 +1,109 @@
 class LRUCache {
-private int count;
-private int capacity;
-private DLinkedNode head, tail;
-    
- class DLinkedNode{
-        
-        DLinkedNode pre ;
-        DLinkedNode next;
-        int val;
-        int key;
-    }
-    
-/**
- * Always add the new node right after head;
- */
-    private void addNode(DLinkedNode node) {
-        
-        node.pre = head;
-        node.next = head.next;
-        
-        head.next.pre = node;
-        head.next = node;
-        
-    }
-    
-/**
- * Remove an existing node from the linked list.
- */
-private void removeNode(DLinkedNode node){
-    
-    node.pre.next = node.next;
-    node.next.pre = node.pre;
-    
-    
-}
-    
-    /**
-     * Move certain node in between to the head.
-     */
-    private void moveToHead(DLinkedNode node){
-      this.removeNode(node);
-      this.addNode(node);
-    }
 
-// pop the current tail. 
-    private DLinkedNode popTail(){
-      DLinkedNode res = tail.pre;
-      this.removeNode(res);
-      return res;
-    }
-
-    
-private Map<Integer, DLinkedNode> cache = new HashMap<Integer, DLinkedNode>();
-    
-    
+    int cap;
+    int size;
+    Map<Integer, Node> cache;
+    DLList dll;
 
     public LRUCache(int capacity) {
-        
-  this.count = 0;
-  this.capacity = capacity;
-        
-   head = new DLinkedNode();
-   head.pre = null;
-   tail = new DLinkedNode();   
-   tail.next = null;
-        
-    head.next = tail;
-    tail.pre = head;
+        this.cap = capacity;
+        this.size = 0;
+        dll = new DLList();
+        cache = new HashMap<>();
+
         
     }
     
     public int get(int key) {
-        
-        if(cache.get(key) ==null){
-            return -1;
+        Node node = cache.get(key);
+        if(node != null){
+            dll.remove(node);
+            dll.add(node);
+            
+           return node.val; 
         }
-        
-        DLinkedNode node = cache.get(key);
-        
-        this.moveToHead(node);
-        
-        return node.val;
+        return -1;
         
     }
     
     public void put(int key, int value) {
+  
         
-       DLinkedNode node = cache.get(key);
-         if( node ==null){
-             node = new DLinkedNode();
-             
-             node.key = key;
-             node.val = value;
-             
-             this.addNode(node);
-             cache.put(key, node);
-             count++;
-             
-             if(count > capacity){
-                 
-                DLinkedNode tt = this.popTail(); 
-                
-                 this.cache.remove(tt.key);
-                 count--;
-             }
-             
-             
-             
-         }else{
-             
-             node.val = value;
-             this.moveToHead(node);
-         }
+        Node node = cache.get(key);
         
+        if(node==null){
+        node = new Node(key, value);
+        dll.add(node);
+        cache.put(key, node);
+            size ++;
+        
+        if(size > cap){
+          Node rem =  dll.removeTail();
+            cache.remove(rem.key);
+            size--;
+        }
+        }else{
+            
+            dll.remove(node);
+           
+            node.val = value;
+            dll.add(node);
+
+       
+       
+    }
+    }
+    
+    static class DLList{
+        
+        Node head;
+        Node tail;
+        
+        public DLList(){
+            
+            this.head = new Node(0,0);
+            this.tail = new Node(0,0);
+            head.next = tail;
+            tail.prev = head;
+        }
+        
+        public void add(Node node){
+            
+          Node next =   head.next;
+            head.next = node;
+            node.next = next;
+            next.prev = node;
+            node.prev = head;
+
+        }
+        
+        public void remove(Node node){
+            
+            node.prev.next = node.next;
+            
+            node.next.prev = node.prev;
+        }
+        
+        public Node removeTail(){
+            
+            Node node = tail.prev;
+            remove(node);
+            return node;
+        }
+        
+        
+    }
+    
+    static class Node{
+        
+        int key, val;
+        Node next;
+        Node prev;
+        
+        Node(int key, int val){
+            this.key = key;
+            this.val = val;
+        }
     }
 }
 
