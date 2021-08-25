@@ -1,23 +1,19 @@
 class Solution {
     public boolean isAnagram(String s, String t) {
         
-        int[] res = new int[26];
         
-        for(char c: s.toCharArray()){
-            res[c-'a']++;
-        }
+        int[] dict = new int[26];
         
-        for(char c : t.toCharArray()){
-         
-            if(res[c - 'a'] > 0){
-                res[c-'a']--;
-            }else
+        for(char c: s.toCharArray())
+            dict[c-'a']++;
+        
+         for(char c: t.toCharArray())
+            dict[c-'a']--;
+        
+        for(int n: dict){
+            if(n !=0){
                 return false;
-        }
-        
-        for(int i =0; i< 26; i++){
-            if(res[i] !=0)
-                return false;
+            }
         }
         
         return true;
