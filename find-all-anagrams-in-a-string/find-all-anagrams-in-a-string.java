@@ -1,55 +1,51 @@
 class Solution {
     public List<Integer> findAnagrams(String s, String p) {
-        Map<Character, Integer> freq = new HashMap<>();
-        for(int i=0; i< p.length(); i++){
-            freq.put(p.charAt(i), freq.getOrDefault(p.charAt(i),0)+1);
-        }
         
-        int start =0, matched =0;
+        Map<Character, Integer> map = new HashMap<>();
         List<Integer> res = new ArrayList<>();
-        for(int i=0; i<s.length(); i++){
+        for(char c : p.toCharArray())
+            map.put(c, map.getOrDefault(c,0)+1);
+        
+        int start = 0, matched =0; 
+        
+        for(int end = 0; end< s.length(); end++){
             
+            char ch = s.charAt(end);
             
-            char ch = s.charAt(i);
-                        
-            if(freq.containsKey(ch)){
+            if(map.containsKey(ch)){
                 
-                freq.put(ch, freq.get(ch)-1);
+                map.put(ch, map.get(ch)-1);
                 
-                
-                if(freq.get(ch)==0){
+                if(map.get(ch) == 0){
+                    
                     matched++;
                 }
-            }
-            
-            if(freq.size()==matched){
-                res.add(start);
-                   
-            }
-            
-            
-            if( i >= p.length()  -1){
                 
-                char fs = s.charAt(start++);
-                if(freq.containsKey(fs))
+            if(matched == map.size()){
+                    res.add(start);
+            }
+           
+            }
+              
+        
+            if(end - start + 1 == p.length()){
+                
+                char w = s.charAt(start++);
+                
+                if(map.containsKey(w))
                { 
-                   
-                    
-                    if(freq.get(fs)==0){
-                    matched--;
-                    }
-                    
-                     freq.put(fs, freq.get(fs)+1);
-                    
-                
+                    if(map.get(w) ==0){
+                        matched--;
+                    } 
+                     map.put(w, map.get(w) + 1);
                 }
                 
             }
             
             
         }
-        
         return res;
+        
         
     }
 }
