@@ -15,22 +15,12 @@
  */
 class Solution {
     public boolean isSubtree(TreeNode s, TreeNode t) {
-        return serialize(s).contains(serialize(t)); // Java uses a naive contains algorithm so to ensure linear time, 
-                                                // replace with KMP algorithm
+        if(s==null) return t == null;
+    	return isSame(s, t) || isSubtree(s.left,t) || isSubtree(s.right,t);
     }
-        
-
-
-public String serialize(TreeNode root) {
-    StringBuilder res = new StringBuilder();
-    serialize(root, res);
-    return res.toString();
-}
-
-private void serialize(TreeNode cur, StringBuilder res) {
-    if (cur == null) {res.append(",#"); return;}
-    res.append("," + cur.val);
-    serialize(cur.left, res);
-    serialize(cur.right, res);
-}
+	
+    private boolean isSame(TreeNode s, TreeNode t){
+    	if(s==null || t == null) return t == s;
+    	return s.val == t.val && isSame(s.left, t.left) && isSame(s.right, t.right);
+    }
 }
